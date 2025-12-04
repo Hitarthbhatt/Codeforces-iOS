@@ -8,9 +8,7 @@
 import Foundation
 
 public enum RequestItems {
-    case login
-    case getSoloChatList
-    case getChatMessages(chatId: UUID)
+    case getProblems(tags: String)
 }
 
 extension RequestItems: EndPoints {
@@ -32,19 +30,15 @@ extension RequestItems: EndPoints {
 
     private var path: String {
         switch self {
-        case .login:
-            return "user/sign-in"
-        case .getSoloChatList:
-            return "/solo_chats"
-        case .getChatMessages(let chatId):
-            return "/solo_chats/\(chatId)"
+        case .getProblems:
+            return "/problemset.problems"
         }
     }
 
     private var urlStr: String {
         switch self {
         default:
-            return baseURL + version + path
+            return baseURL + path
         }
     }
 
@@ -71,17 +65,23 @@ extension RequestItems: EndPoints {
 
     var httpMethod: HTTPMethod {
         return switch self {
-        case .getChatMessages:
+        case .getProblems:
                 .GET
-        default:
-                .POST
+        }
+    }
+    
+    var  queryItems: [URLQueryItem]? {
+        switch self {
+        case .getProblems(let tags):
+            let queryItem = URLQueryItem(name: "tags", value: tags)
+            return [queryItem]
         }
     }
 
     var header: [String: String]? {
         let accessToken = KeychainManager.shared.readToken(for: .token) ?? ""
         switch self {
-        case .login:
+        case .getProblems:
             return ["Content-Type": "application/json"]
         default:
             return ["Authorization": "Bearer \(accessToken)"]

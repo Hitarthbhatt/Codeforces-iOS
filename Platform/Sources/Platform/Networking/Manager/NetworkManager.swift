@@ -48,7 +48,7 @@ extension NetworkManager: NetworkControllerProtocol {
                     
                 } catch let decodingError as DecodingError {
                     let error = self.detailedErrorMessage(for: decodingError)
-                    print(error)
+//                    print(error)
                     throw NetworkError.decodingFailed(error)
                 } catch {
                     throw NetworkError.custom(error.localizedDescription)
@@ -69,13 +69,13 @@ extension NetworkManager: NetworkControllerProtocol {
         
         func publisher(forDataTaskOutput output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<Data, Error> {
             let httpResponse = output.response as? HTTPURLResponse
-            print(httpResponse?.allHeaderFields ?? [:])
+//            print(httpResponse?.allHeaderFields ?? [:])
             if let cookieHeader = httpResponse?.allHeaderFields["Set-Cookie"] as? String, requestItem.isCookieAllow {
             }
             
             let data = try? JSONDecoder().decode(CommonAPIResponse.self, from: output.data)
 #if DEBUG
-                logger.log(responseData: output.data, response: httpResponse)
+//                logger.log(responseData: output.data, response: httpResponse)
 #endif
             switch (output.response as? HTTPURLResponse)?.statusCode {
             case .some(200...300):
@@ -114,35 +114,32 @@ extension NetworkManager: NetworkControllerProtocol {
 extension NetworkManager {
     private func getURLRequest(requestItem: RequestItems, param: [String: Any]?) -> URLRequest? {
         guard let url = requestItem.url else { return nil }
-        var request = URLRequest(
-            url: url,
-            timeoutInterval: Double.infinity
-        )  // urlRequest
-        request.httpMethod = requestItem.httpMethod.getMethod  // httpMethod
+        var request = URLRequest(url: url, timeoutInterval: Double.infinity)
+        request.httpMethod = requestItem.httpMethod.getMethod
         
         if let header = requestItem.header {
-            request.allHTTPHeaderFields = header    // header
+            request.allHTTPHeaderFields = header
         }
 
-        var urlString: String?
-        if let param = param, !param.isEmpty {  // params
-            switch requestItem.httpMethod {
-            case .GET: urlString = "\(url)?\(param.queryString)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-            default:
+        // Use URLComponents to build URL with query items for GET requests
+        if requestItem.httpMethod == .GET, let queryItems = requestItem.queryItems, !queryItems.isEmpty {
+            var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+            urlComponents?.queryItems = queryItems
+            request.url = urlComponents?.url
+        } else {
+            request.url = url
+            
+            // For non-GET methods, add params to the request body
+            if let param = param, !param.isEmpty {
                 do {
                     request.httpBody = try JSONSerialization.data(withJSONObject: param, options: [])
                 } catch {
-                    print("invalid json formate of params")
+//                    print("invalid json formate of params")
                 }
             }
         }
-        if let urlString = urlString {
-            request.url = URL(string: urlString)
-        } else {
-            request.url = url
-        }
 #if DEBUG
-        logger.log(request: request)
+//        logger.log(request: request)
 #endif
         return request
     }

@@ -1,8 +1,8 @@
 import Foundation
 
-public enum ViewState {
+public enum ViewState: Equatable {
     case loading
     case finished
-    case error
+    case error(String)
     case emptyState
 }

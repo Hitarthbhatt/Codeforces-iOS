@@ -8,16 +8,16 @@
 import Foundation
 
 // MARK: - Result
-struct Result: Codable {
-    let problems: [Problem]
-    let problemStatistics: [ProblemStatistic]
+struct ProblemList: Codable {
+    let problems: [Problem]?
+    let problemStatistics: [ProblemStatistic]?
 }
 
 // MARK: - ProblemStatistic
 struct ProblemStatistic: Codable {
-    let contestID: Int
-    let index: String
-    let solvedCount: Int
+    let contestID: Int?
+    let index: String?
+    let solvedCount: Int?
     
     enum CodingKeys: String, CodingKey {
         case contestID = "contestId"
@@ -26,17 +26,18 @@ struct ProblemStatistic: Codable {
 }
 
 // MARK: - Problem
-struct Problem: Codable {
-    let contestID: Int
-    let index, name: String
-    let type: TypeEnum
+struct Problem: Codable, Identifiable {
+    let id: UUID = UUID() 
+    let contestID: Int?
+    let index: String?
+    let name: String?
     let rating: Int?
-    let tags: [Tag]
+    let tags: [Tag]?
     let points: Int?
     
     enum CodingKeys: String, CodingKey {
         case contestID = "contestId"
-        case index, name, type, rating, tags, points
+        case index, name, rating, tags, points
     }
 }
 
@@ -76,8 +77,11 @@ enum Tag: String, Codable {
     case ternarySearch = "ternary search"
     case trees = "trees"
     case twoPointers = "two pointers"
-}
-
-enum TypeEnum: String, Codable {
-    case programming = "PROGRAMMING"
+    case unknown = "unknown"
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self = Tag(rawValue: rawValue) ?? .unknown
+    }
 }

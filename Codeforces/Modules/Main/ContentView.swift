@@ -13,12 +13,10 @@ struct ContentView: View {
     @EnvironmentObject private var appViewModel: AppViewModel
     
     var body: some View {
-        NavigationTab {
-            MainTabView(
-                selectedTab: $appViewModel.selectedTabItem,
-                allCases: CustomTabBarItem.allCases
-            )
-        }
+        MainTabView(
+            selectedTab: $appViewModel.selectedTabItem,
+            allCases: CustomTabBarItem.allCases
+        )
     }
 }
 

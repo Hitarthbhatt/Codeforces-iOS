@@ -7,10 +7,10 @@ extension View {
     func withSheetDestinations(sheetDestinations: Binding<SheetDestination?>) -> some View {
         sheet(item: sheetDestinations) { destination in
             switch destination {
-            case .textEditorTool:
-                EmptyView()
-                .presentationDragIndicator(.hidden)
-                .presentationDetents([.height(200)])
+            case .problemTags(let tags):
+                ProblemsTagView(tags: tags)
+                    .presentationDragIndicator(.visible)
+                    .dynamicSheetHeight()
             }
         }
     }

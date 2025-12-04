@@ -34,9 +34,22 @@
 		7690CA3D2EDFDF52007421A5 /* Platform */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Platform; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7690CA952EE0B908007421A5 /* Exceptions for "Codeforces" folder in "Codeforces" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7690CA062EDFDEDC007421A5 /* Codeforces */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7690CA092EDFDEDC007421A5 /* Codeforces */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7690CA952EE0B908007421A5 /* Exceptions for "Codeforces" folder in "Codeforces" target */,
+			);
 			path = Codeforces;
 			sourceTree = "<group>";
 		};
@@ -416,6 +429,7 @@
 				DEVELOPMENT_TEAM = 3C9FJMJJ66;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Codeforces/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -448,6 +462,7 @@
 				DEVELOPMENT_TEAM = 3C9FJMJJ66;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Codeforces/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

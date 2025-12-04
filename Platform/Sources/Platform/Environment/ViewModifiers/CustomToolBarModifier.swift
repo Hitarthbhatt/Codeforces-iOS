@@ -28,14 +28,6 @@ public struct CustomToolBarModifier<LeadingView: View, TrailingView: View>: View
     
     public func body(content: Content) -> some View {
         content
-            .if(Util.isIOS26, transform: { view in
-                view
-                    .toolbarBackground(.hidden, for: .navigationBar)
-            })
-            .if(!Util.isIOS26, transform: { view in
-                view
-                    .toolbarBackground(Color.black, for: .navigationBar)
-            })
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarHidden(false)
             .toolbar {
@@ -87,20 +79,20 @@ fileprivate struct ToolBarTab<LeadingView: View, TrailingView: View>: ToolbarCon
     
     var body: some ToolbarContent {
         // Apply conditionally
-        hideSharedBackground(apply: isHideSharedBackground) {
-            ToolbarItemGroup(placement: .topBarLeading) {
-                if let leftContent = leftContent {
-                    leftContent
-                }
-                
-                if !title.isEmpty {
-                    Text(title)
-                        .sfProSemiBold(size: 17)
-                        .foregroundStyle(.white)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
-                        .fixedSize(horizontal: true, vertical: false)
-                }
+        ToolbarItemGroup(placement: .topBarLeading) {
+            if let leftContent = leftContent {
+                leftContent
+            }
+        }
+        
+        if !title.isEmpty {
+            ToolbarItem(placement: .title) {
+                Text(title)
+                    .sfProSemiBold(size: 20)
+                    .foregroundStyle(Color.primaryLabel)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .fixedSize(horizontal: true, vertical: false)
             }
         }
         

@@ -2,12 +2,12 @@ import SwiftUI
 import PhotosUI
 
 enum SheetDestination: Identifiable, Hashable, Equatable {
-    case textEditorTool
+    case problemTags(tags: [Tag])
 
     var id: String {
         switch self {
-        case .textEditorTool:
-            return "textEditorTool"
+        case .problemTags:
+            return "problemTags"
         }
     }
 

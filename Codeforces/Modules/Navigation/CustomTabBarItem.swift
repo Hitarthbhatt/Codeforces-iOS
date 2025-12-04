@@ -45,7 +45,9 @@ public enum CustomTabBarItem: TabBarItemProtocol {
     public func getContent() -> some View {
         switch self {
         case .problem:
-            Text("Problem")
+            NavigationTab {
+                ProblemListView()
+            }
         case .profile:
             Text("Profile")
         }

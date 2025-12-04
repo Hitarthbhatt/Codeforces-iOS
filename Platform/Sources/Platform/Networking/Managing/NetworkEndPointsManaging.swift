@@ -11,4 +11,5 @@ protocol EndPoints {
     var url: URL? { get }
     var httpMethod: HTTPMethod { get }
     var header: [String: String]? { get }
+    var queryItems: [URLQueryItem]? { get }
 }
