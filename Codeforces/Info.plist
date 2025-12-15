@@ -2,11 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>serverURL</key>
-	<string>https://codeforces.com/api</string>
 	<key>apiKey</key>
 	<string>48061524e541cdbdc8342d713db722365fb0e627</string>
 	<key>apiSecret</key>
 	<string>dd129ce6aea9036d68bd56c8b0ba87127f52ce7a</string>
+	<key>serverURL</key>
+	<string>https://codeforces.com/api</string>
 </dict>
 </plist>

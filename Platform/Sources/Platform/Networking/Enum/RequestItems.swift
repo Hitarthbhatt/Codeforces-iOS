@@ -9,6 +9,7 @@ import Foundation
 
 public enum RequestItems {
     case getProblems(tags: String)
+    case getUserInfo(handles: String)
 }
 
 extension RequestItems: EndPoints {
@@ -32,6 +33,8 @@ extension RequestItems: EndPoints {
         switch self {
         case .getProblems:
             return "/problemset.problems"
+        case .getUserInfo:
+            return "/user.info"
         }
     }
 
@@ -64,10 +67,7 @@ extension RequestItems: EndPoints {
     }
 
     var httpMethod: HTTPMethod {
-        return switch self {
-        case .getProblems:
-                .GET
-        }
+        return .GET
     }
     
     var  queryItems: [URLQueryItem]? {
@@ -75,16 +75,14 @@ extension RequestItems: EndPoints {
         case .getProblems(let tags):
             let queryItem = URLQueryItem(name: "tags", value: tags)
             return [queryItem]
+            
+        case .getUserInfo(let handles):
+            let queryItem = URLQueryItem(name: "handles", value: handles)
+            return [queryItem]
         }
     }
 
     var header: [String: String]? {
-        let accessToken = KeychainManager.shared.readToken(for: .token) ?? ""
-        switch self {
-        case .getProblems:
-            return ["Content-Type": "application/json"]
-        default:
-            return ["Authorization": "Bearer \(accessToken)"]
-        }
+        return ["Content-Type": "application/json"]
     }
 }

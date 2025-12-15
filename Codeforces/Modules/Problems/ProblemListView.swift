@@ -39,71 +39,53 @@ struct ProblemListView: View {
         List(viewModel.problems) { problem in
             problemsCellView(problem: problem)
                 .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-                .listRowInsets(.init())
+                .listRowSeparator(.hidden, edges: .top)
+                .listRowSeparator(.visible, edges: .bottom)
         }
         .listStyle(.plain)
     }
     
     private func problemsCellView(problem: Problem) -> some View {
         VStack(spacing: 4) {
-            VStack(alignment: .leading, spacing: 10) {
-                HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 5) {
+                HStack(alignment: .center, spacing: 15) {
                     if let level = problem.index {
-                        Text(level + ":")
-                            .font(.appFont(.headline, .semibold))
+                        Text("Level \(level)")
+                            .font(.appFont(.subHeadline, .medium))
                             .foregroundStyle(Color.primaryLabel)
                     }
                     
-                    Text(problem.name ?? "NA")
-                        .font(.appFont(.headline, .regular))
-                        .lineLimit(3)
-                        .foregroundStyle(Color.primaryLabel)
+                    Spacer()
                     
-                    Spacer(minLength: 5)
-                    if let rating = problem.rating {
-                        Text(String(rating))
-                            .font(.appFont(.headline, .regular))
-                            .foregroundStyle(Color.secondaryLabel)
-                    }
-                } // HStack
-                
-                HStack {
-                    Text("Tags")
-                        .foregroundStyle(Color.primaryLabel.opacity(0.5))
-                        .font(Font.appFont(.subHeadline, .regular))
-                        .roundedBackground(
-                            vertical: 4,
-                            horizontal: 10,
-                            bgColor: .primary700,
-                            borderColor: .brandSecondaryBG,
-                            cornerRadius: 7
-                        )
+                    Image(systemName: "tag")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 18, height: 18)
+                        .foregroundStyle(Color.brandLabel)
                         .onTapGesture {
                             if let tags = problem.tags, !tags.isEmpty {
                                 sheetDestination = .problemTags(tags: tags)
                             }
                         }
                     
-                    Spacer(minLength: 0)
                     Image(systemName: "document.on.document")
-                        .foregroundStyle(Color.primaryLabel.opacity(0.5))
-                        .roundedBackground(
-                            vertical: 4,
-                            horizontal: 10,
-                            bgColor: .primary700,
-                            borderColor: .brandSecondaryBG,
-                            cornerRadius: 7
-                        )
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 18, height: 18)
+                        .foregroundStyle(Color.brandLabel)
                 } // HStack
+                
+                Text(problem.name ?? "NA")
+                    .font(.appFont(.title2, .medium))
+                    .lineLimit(3)
+                    .foregroundStyle(Color.primaryLabel)
+                
+                if let rating = problem.rating {
+                    Text("Problem Rating \(rating)")
+                        .font(.appFont(.subHeadline, .medium))
+                        .foregroundStyle(Color.secondaryLabel)
+                }
             } // VStack
-            .roundedBackground(
-                vertical: 12,
-                horizontal: 12,
-                bgColor: Color.quaternaryBG.opacity(0.2),
-                borderColor: .clear,
-                cornerRadius: 10
-            )
             
             Button(action: {
             }, label: {
@@ -118,6 +100,7 @@ struct ProblemListView: View {
                         cornerRadius: 7
                     )
             })
+            .padding(.top, 10)
         } // VStack
         .padding(.horizontal, 20)
         .padding(.vertical, 7)

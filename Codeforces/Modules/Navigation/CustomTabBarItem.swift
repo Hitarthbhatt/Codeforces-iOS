@@ -11,20 +11,21 @@ import Platform
 
 public enum CustomTabBarItem: TabBarItemProtocol {
     case problem
+    case contest
     case profile
     
     public var tag: Int {
         return switch self {
-        case .problem:
-            0
-        case .profile:
-            1
+        case .problem: 0
+        case .contest: 1
+        case .profile: 2
         }
     }
     
     public var imageName: String {
         return switch self {
         case .problem: "house"
+        case .contest: "trophy"
         case .profile: "person.crop.circle"
         }
     }
@@ -33,6 +34,8 @@ public enum CustomTabBarItem: TabBarItemProtocol {
         switch self {
         case .problem:
             return "Problems"
+        case .contest:
+            return "Contests"
         case .profile:
             return "Profile"
         }
@@ -48,8 +51,12 @@ public enum CustomTabBarItem: TabBarItemProtocol {
             NavigationTab {
                 ProblemListView()
             }
+        case .contest:
+            Text("Contest")
         case .profile:
-            Text("Profile")
+            NavigationTab {
+                ProfileMainView()
+            }
         }
     }
 }
